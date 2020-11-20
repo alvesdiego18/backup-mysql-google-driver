@@ -1,1 +1,12 @@
 node_modules
+*.sql
+
+!backup
+backup/*
+
+.env
+
+credentials.json
+token.json
+
+yarn.lock
