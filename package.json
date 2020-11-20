@@ -5,6 +5,8 @@
   "license": "MIT",
   "dependencies": {
     "dotenv": "^8.2.0",
+    "googleapis": "^65.0.0",
+    "moment": "^2.29.1",
     "mysqldump": "^3.2.0"
   }
 }
