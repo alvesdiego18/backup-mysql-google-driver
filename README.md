@@ -6,3 +6,4 @@
 - [x] Limited files in Google driver 
 - [ ] Generated log control
 - [ ] Send email alert
+- [ ] Cron Dinamic
