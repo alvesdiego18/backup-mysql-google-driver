@@ -1,10 +1,14 @@
 const fs = require("fs");
 const { google } = require('googleapis');
+const logger = require(`perfect-logger`)
 
-function sendFile(fileName, filePath, callback) {
-    require("./gdrive")((auth) => {
+const callGDriveApi = require(`./gdrive`)
 
-        const folderId = process.env.BACKUP_DRIVE_GOOGLE_FOLDER_ID
+function sendFile(fileName, filePath, options, callback) {
+
+    callGDriveApi(options, (auth) => {
+
+        const folderId = options.google_drive_folder_id
 
         const fileMetadata = {
             name: fileName,
@@ -16,24 +20,29 @@ function sendFile(fileName, filePath, callback) {
             body: fs.createReadStream(filePath)
         }
 
+        logger.info(`sending new files to google drive`)
         const drive = google.drive({ version: 'v3', auth });
+
         drive.files.create({
             resource: fileMetadata,
             media: media,
             fields: 'id',
         }, function (err, file) {
+
             if (err) {
                 callback(err)
             } else {
                 callback(file.data.id);
             }
         });
-    });
+    })
 }
 
-function deleteFile(fileid, callback) {
+function deleteFile(options, fileid, callback) {
 
-    require("./gdrive")((auth) => {
+    logger.info(`deleting old files from google drive`)
+
+    callGDriveApi(options, (auth) => {
         const drive = google.drive({ version: 'v3', auth });
         drive.files.delete({
             fileId: fileid
@@ -44,7 +53,7 @@ function deleteFile(fileid, callback) {
                 callback('OK');
             }
         })
-    });
+    })
 }
 
 module.exports = {

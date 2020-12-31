@@ -1,25 +1,19 @@
-const CronJob = require('cron').CronJob;
-const init = require(`./dist/init`)
+const { monitor_backup } = require(`./dist`)
 
-if (process.env.BACKUP_DRIVE_CRON_ACTIVE === `true`) {
+monitor_backup({
+    host: ``,
+    user: ``,
+    password: ``,
+    database: ``,
 
-    console.log('Cron!')
-    if (process.env.BACKUP_DRIVE_CRON) {
+    keep_files: 2,
 
-        console.log('Cron iniciando...')
-        console.log('Tempo cron', process.env.BACKUP_DRIVE_CRON)
-        const job = new CronJob(process.env.BACKUP_DRIVE_CRON, function () {
+    cron_active: false,
+    cron_time: `*/1 * * * *`,
+    cron_timezone: `America/Sao_Paulo`,
 
-            console.log('Rodando cron...')
-            init()
-
-        }, null, true, process.env.BACKUP_DRIVE_TIMEZONE);
-
-        job.start();
-    }
-}
-else {
-
-    console.log('No Cron!')
-    init()
-}
+    google_drive_active: false,
+    google_drive_client_id: ``,
+    google_drive_client_secret: ``,
+    google_drive_folder_id: ``,
+})

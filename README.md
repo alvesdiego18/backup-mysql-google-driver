@@ -4,6 +4,6 @@
 - [x] Limited files upload
 - [x] Delete files localy and google driver
 - [x] Limited files in Google driver 
-- [ ] Generated log control
+- [x] Generated log control
 - [ ] Send email alert
 - [x] Cron Dinamic
