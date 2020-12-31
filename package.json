@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "cron": "^1.8.2",
     "dotenv": "^8.2.0",
     "googleapis": "^65.0.0",
     "moment": "^2.29.1",

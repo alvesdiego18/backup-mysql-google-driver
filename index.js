@@ -1,79 +1,25 @@
-require('dotenv').config()
-const mysqldump = require('mysqldump')
-const fs = require('fs')
-const moment = require('moment')
-const sendFile = require('./dist/file')
+const CronJob = require('cron').CronJob;
+const init = require(`./dist/init`)
 
-async function init() {
+if (process.env.BACKUP_DRIVE_CRON_ACTIVE === `true`) {
 
-    /** delete old items */
-    if (fs.existsSync('db.json')) {
-        fs.readFile('db.json', 'utf8', function readFileCallback(err, data) {
-            if (err) {
-                console.log(err);
-            } else {
+    console.log('Cron!')
+    if (process.env.BACKUP_DRIVE_CRON) {
 
-                const list = data.split('\n')
+        console.log('Cron iniciando...')
+        console.log('Tempo cron', process.env.BACKUP_DRIVE_CRON)
+        const job = new CronJob(process.env.BACKUP_DRIVE_CRON, function () {
 
-                if (list.length > 2) {
-                    sendFile.delete(list[0], async (data) => {
+            console.log('Rodando cron...')
+            init()
 
-                        let newList = ''
-                        let index = 0
-                        for (const fileDelete of list) {
+        }, null, true, process.env.BACKUP_DRIVE_TIMEZONE);
 
-                            if (fileDelete === '')
-                                continue
-
-                            if (index === 0) {
-
-                                if (await fs.existsSync(`./backup/${fileDelete}.sql`))
-                                    await fs.unlinkSync(`./backup/${fileDelete}.sql`)
-
-                                index++
-                                continue
-                            }
-
-                            newList += `${fileDelete}\n`
-                            index++
-                        }
-
-                        await fs.writeFileSync('db.json', newList)
-                    })
-                }
-            }
-        });
+        job.start();
     }
-
-    /** Format file name */
-    const fileName = `${process.env.BD_DATABASE}_backup_${moment().format('YYYY-MM-DD_HH_mm-ss')}.sql`
-    const folderfileName = `./backup/${fileName}`
-
-    /** Confi the access database */
-    const config = {
-        connection: {
-            host: process.env.BACKUP_DRIVE_HOST,
-            user: process.env.BACKUP_DRIVE_USER,
-            password: process.env.BACKUP_DRIVE_PASSWORD,
-            database: process.env.BACKUP_DRIVE_DATABASE,
-        },
-        dumpToFile: folderfileName,
-    }
-
-    /** backup */
-    await mysqldump(config);
-
-    /** send file to google drive */
-    sendFile.send(fileName, folderfileName, (data) => {
-
-        setTimeout(async () => {
-            await fs.renameSync(folderfileName, `./backup/${data}.sql`)
-        }, 2000);
-
-        fs.appendFileSync('db.json', `${data}\n`, (err) => {
-            if (err) throw err;
-        });
-    })
 }
+else {
 
-init()
+    console.log('No Cron!')
+    init()
+}
