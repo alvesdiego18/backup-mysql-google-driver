@@ -24,11 +24,11 @@ const sendMail = async (options) => {
                 text: options.mail.text ? options.mail.text : "New backup performed successfully",
             })
 
-            logger.info(`Mail notification send with success to => ${options.mail.to}.`)
+            logger.info(`mail notification send with success to => ${options.mail.to}.`)
 
         } catch (error) {
 
-            logger.info('Error to send mail notification.')
+            logger.info('!## error to send mail notification. ##')
             logger.info(error.message)
             logger.info(error)
         }
