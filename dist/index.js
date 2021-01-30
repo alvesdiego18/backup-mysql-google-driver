@@ -18,7 +18,7 @@ function initCron(options) {
 
         if (options.cron.time) {
 
-            logger.info('cron iniciando...')
+            logger.info('cron starting...')
             logger.info(`time cron run ${options.cron.time}`)
 
             const job = new CronJob(options.cron.time, function () {
