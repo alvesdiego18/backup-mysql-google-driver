@@ -1,5 +1,5 @@
 {
-  "name": "backupdrive",
+  "name": "backup-mysql-google-driver",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
