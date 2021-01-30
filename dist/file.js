@@ -20,7 +20,7 @@ function sendFile(fileName, filePath, options, callback) {
             body: fs.createReadStream(filePath)
         }
 
-        logger.info(`sending new files to google drive`)
+        logger.info(`sending new backup to google drive`)
         const drive = google.drive({ version: 'v3', auth });
 
         drive.files.create({
@@ -40,7 +40,7 @@ function sendFile(fileName, filePath, options, callback) {
 
 function deleteFile(options, fileid, callback) {
 
-    logger.info(`deleting old files from google drive`)
+    logger.info(`deleting old backups from google drive`)
 
     callGDriveApi(options, (auth) => {
         const drive = google.drive({ version: 'v3', auth });

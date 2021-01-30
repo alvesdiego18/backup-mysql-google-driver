@@ -29,6 +29,19 @@ async function sendFileToGoogleDrive(fileName, folderfileName, options) {
         /** send file to google drive */
         if (options.google_drive_active) {
 
+            if (options.google_drive_client_id === '' || options.google_drive_client_secret === '') {
+                logger.info(`- !## account backup google drive not configured! ##`)
+                logger.info(`- Please, check this link => https://developers.google.com/drive/api/v3/quickstart/nodejs`)
+                logger.info(`finish backup`)
+                return
+            }
+
+            const tokenExist = fs.existsSync('./token.json')
+            if (!tokenExist) {
+                logger.info(`- !## backup google drive configured but token not valid! ##`)                                
+                logger.info(`- please follow the next steps`)                                
+            }
+
             sendFile.send(fileName, folderfileName, options, (data) => {
 
                 logger.info(`renaming file`)
@@ -39,7 +52,7 @@ async function sendFileToGoogleDrive(fileName, folderfileName, options) {
                         if (err) throw err;
                     });
 
-                    logger.info(`file sending success!`)
+                    logger.info(`backup sending to google drive with success!`)
                     logger.info(`finish backup`)
 
                 }, 2000);
@@ -92,7 +105,7 @@ async function deleteOldFiles(options) {
 
         if (fs.existsSync('./backup/db.json')) {
 
-            logger.info(`deleting old files`)
+            logger.info(`deleting old backups`)
 
             fs.readFile('./backup/db.json', 'utf8', async function readFileCallback(err, data) {
                 if (err) {

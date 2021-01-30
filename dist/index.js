@@ -19,7 +19,7 @@ function initCron(optinos) {
         if (optinos.cron_time) {
 
             logger.info('cron iniciando...')
-            logger.info(`time cron ${optinos.cron_time}`)
+            logger.info(`time cron run ${optinos.cron_time}`)
 
             const job = new CronJob(optinos.cron_time, function () {
 
