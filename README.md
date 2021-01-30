@@ -1,7 +1,7 @@
 # backup-mysql-google-driver
 This library will help you to perform backups of the mysql database and send them to the google drive
 
-![SliderBox](assets/demo.gif)
+![Backup mysql google driver](assets/demo.gif)
 
 ## Custom your backup mysql and save in Google drive
 > This is just a bunch of encapsulated libraries to make it easier to back up the database and to store it in the cloud with more comfort and practicality. see below how you can customize.
