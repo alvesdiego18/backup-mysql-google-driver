@@ -10,23 +10,23 @@ logger.initialize('Log', {
 
 const backup = require(`./backup`)
 
-function initCron(optinos) {    
+function initCron(options) {    
 
-    if (optinos.cron_active) {
+    if (options.cron.active) {
 
         logger.info('cron!')
 
-        if (optinos.cron_time) {
+        if (options.cron.time) {
 
             logger.info('cron iniciando...')
-            logger.info(`time cron run ${optinos.cron_time}`)
+            logger.info(`time cron run ${options.cron.time}`)
 
-            const job = new CronJob(optinos.cron_time, function () {
+            const job = new CronJob(options.cron.time, function () {
 
                 logger.info('run cron...')
-                backup(optinos)
+                backup(options)
 
-            }, null, true, optinos.cron_timezone);
+            }, null, true, options.cron.timezone);
 
             job.start();
         }
@@ -34,7 +34,7 @@ function initCron(optinos) {
     else {
 
         logger.info('run not cron!')
-        backup(optinos)
+        backup(options)
     }
 }
 

@@ -5,11 +5,12 @@ const moment = require('moment')
 const logger = require(`perfect-logger`)
 
 const sendFile = require('./file')
+const mail = require('./email')
 
 async function init(options) {
 
     /** Format file name */
-    const fileName = `${options.database}_backup_${moment().format('YYYY-MM-DD_HH_mm-ss')}.sql`
+    const fileName = `${options.backup.database}_backup_${moment().format('YYYY-MM-DD_HH_mm-ss')}.sql`
     const folderfileName = `./backup/${fileName}`
 
     /** delete old items */
@@ -20,6 +21,9 @@ async function init(options) {
 
     /** send file google drive */
     await sendFileToGoogleDrive(fileName, folderfileName, options)
+
+    //** send mail notification */
+    await mail.sendMail(options)
 }
 
 async function sendFileToGoogleDrive(fileName, folderfileName, options) {
@@ -27,9 +31,9 @@ async function sendFileToGoogleDrive(fileName, folderfileName, options) {
     try {
 
         /** send file to google drive */
-        if (options.google_drive_active) {
+        if (options.google_drive.active) {
 
-            if (options.google_drive_client_id === '' || options.google_drive_client_secret === '') {
+            if (options.google_drive.client_id === '' || options.google_drive.client_secret === '') {
                 logger.info(`- !## account backup google drive not configured! ##`)
                 logger.info(`- Please, check this link => https://developers.google.com/drive/api/v3/quickstart/nodejs`)
                 logger.info(`finish backup`)
@@ -38,8 +42,8 @@ async function sendFileToGoogleDrive(fileName, folderfileName, options) {
 
             const tokenExist = fs.existsSync('./token.json')
             if (!tokenExist) {
-                logger.info(`- !## backup google drive configured but token not valid! ##`)                                
-                logger.info(`- please follow the next steps`)                                
+                logger.info(`- !## backup google drive configured but token not valid! ##`)
+                logger.info(`- please follow the next steps`)
             }
 
             sendFile.send(fileName, folderfileName, options, (data) => {
@@ -77,10 +81,10 @@ async function backupFile(fileName, folderfileName, options) {
         /** Config the access database */
         const config = {
             connection: {
-                host: options.host,
-                user: options.user,
-                password: options.password,
-                database: options.database,
+                host: options.backup.host,
+                user: options.backup.user,
+                password: options.backup.password,
+                database: options.backup.database,
             },
             dumpToFile: folderfileName,
         }
@@ -88,7 +92,7 @@ async function backupFile(fileName, folderfileName, options) {
         /** backup */
         await mysqldump(config);
 
-        if (!options.google_drive_active)
+        if (!options.google_drive.active)
             fs.appendFileSync('./backup/db.json', `${fileName}\n`, (err) => {
                 if (err) throw err;
             });
@@ -113,7 +117,7 @@ async function deleteOldFiles(options) {
                 } else {
 
                     const list = data.split('\n')
-                    const keepFiles = options.keep_files ? options.keep_files : 10
+                    const keepFiles = options.backup.keep_files ? options.backup.keep_files : 10
 
                     if (list.length > Number(keepFiles)) {
 
@@ -142,7 +146,7 @@ async function deleteOldFiles(options) {
                             await fs.writeFileSync('./backup/db.json', newList)
                         }
 
-                        if (!options.google_drive_active) {
+                        if (!options.google_drive.active) {
                             await deleteLocalFile()
                         }
                         else {

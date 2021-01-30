@@ -8,7 +8,7 @@ function sendFile(fileName, filePath, options, callback) {
 
     callGDriveApi(options, (auth) => {
 
-        const folderId = options.google_drive_folder_id
+        const folderId = options.google_drive.folder_id
 
         const fileMetadata = {
             name: fileName,

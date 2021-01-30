@@ -12,8 +12,8 @@ const TOKEN_PATH = 'token.json';
 
 function callGDriveApi(options, callback) {
 
-    const client_secret = options.google_drive_client_secret
-    const client_id = options.google_drive_client_id
+    const client_secret = options.google_drive.client_secret
+    const client_id = options.google_drive.client_id
 
     if (callback)
         authorize({
