@@ -11,7 +11,13 @@ async function init(options) {
 
     /** Format file name */
     const fileName = `${options.backup.database}_backup_${moment().format('YYYY-MM-DD_HH_mm-ss')}.sql`
-    const folderfileName = `./backup/${fileName}`
+    const dir = options.backup.folder_backups ? options.backup.folder_backups : `./backup`
+    const folderfileName = `${dir}/${fileName}`
+
+    //** Verify if directory exists */
+    if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir);
+    }
 
     /** delete old items */
     await deleteOldFiles(options)
@@ -50,9 +56,9 @@ async function sendFileToGoogleDrive(fileName, folderfileName, options) {
 
                 logger.info(`renaming file`)
                 setTimeout(async () => {
-                    await fs.renameSync(folderfileName, `./backup/${data}.sql`)
+                    await fs.renameSync(folderfileName, `${options.backup.folder_backups}/${data}.sql`)
 
-                    fs.appendFileSync('./backup/db.json', `${data}\n`, (err) => {
+                    fs.appendFileSync(`${options.backup.folder_backups}/db.json`, `${data}\n`, (err) => {
                         if (err) throw err;
                     });
 
@@ -93,7 +99,7 @@ async function backupFile(fileName, folderfileName, options) {
         await mysqldump(config);
 
         if (!options.google_drive.active)
-            fs.appendFileSync('./backup/db.json', `${fileName}\n`, (err) => {
+            fs.appendFileSync(`${options.backup.folder_backups}/db.json`, `${fileName}\n`, (err) => {
                 if (err) throw err;
             });
 
@@ -107,11 +113,11 @@ async function deleteOldFiles(options) {
 
     try {
 
-        if (fs.existsSync('./backup/db.json')) {
+        if (fs.existsSync(`${options.backup.folder_backups}/db.json`)) {
 
             logger.info(`deleting old backups`)
 
-            fs.readFile('./backup/db.json', 'utf8', async function readFileCallback(err, data) {
+            fs.readFile(`${options.backup.folder_backups}/db.json`, 'utf8', async function readFileCallback(err, data) {
                 if (err) {
                     console.log(err);
                 } else {
@@ -132,8 +138,8 @@ async function deleteOldFiles(options) {
 
                                 if (index === 0) {
 
-                                    if (await fs.existsSync(`./backup/${fileDelete}${extensionFile}`))
-                                        await fs.unlinkSync(`./backup/${fileDelete}${extensionFile}`)
+                                    if (await fs.existsSync(`${options.backup.folder_backups}/${fileDelete}${extensionFile}`))
+                                        await fs.unlinkSync(`${options.backup.folder_backups}/${fileDelete}${extensionFile}`)
 
                                     index++
                                     continue
@@ -143,7 +149,7 @@ async function deleteOldFiles(options) {
                                 index++
                             }
 
-                            await fs.writeFileSync('./backup/db.json', newList)
+                            await fs.writeFileSync(`${options.backup.folder_backups}/db.json`, newList)
                         }
 
                         if (!options.google_drive.active) {

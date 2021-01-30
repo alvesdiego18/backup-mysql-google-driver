@@ -12,8 +12,8 @@ const sendMail = async (options) => {
                 port: options.mail.port,
                 secure: options.mail.secure ? options.mail.secure : true,
                 auth: {
-                    user: options.mail.auth.user,
-                    pass: options.mail.auth.pass,
+                    user: options.mail.user,
+                    pass: options.mail.pass,
                 },
             });
 
