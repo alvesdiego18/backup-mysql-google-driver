@@ -11,12 +11,12 @@ async function init(options) {
 
     /** Format file name */
     const fileName = `${options.backup.database}_backup_${moment().format('YYYY-MM-DD_HH_mm-ss')}.sql`
-    const dir = options.backup.folder_backups ? options.backup.folder_backups : `./backup`
-    const folderfileName = `${dir}/${fileName}`
+    options.backup.folder_backups = options.backup.folder_backups ? options.backup.folder_backups : `./backup`    
+    const folderfileName = `${options.backup.folder_backups}/${fileName}`    
 
     //** Verify if directory exists */
-    if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir);
+    if (!fs.existsSync(options.backup.folder_backups)) {
+        fs.mkdirSync(options.backup.folder_backups);
     }
 
     /** delete old items */
