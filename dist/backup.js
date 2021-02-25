@@ -37,7 +37,7 @@ async function sendFileToGoogleDrive(fileName, folderfileName, options) {
     try {
 
         /** send file to google drive */
-        if (options.google_drive.active) {
+        if (options.google_drive && options.google_drive.active) {
 
             if (options.google_drive.client_id === '' || options.google_drive.client_secret === '') {
                 logger.info(`- !## account backup google drive not configured! ##`)
@@ -98,7 +98,7 @@ async function backupFile(fileName, folderfileName, options) {
         /** backup */
         await mysqldump(config);
 
-        if (!options.google_drive.active)
+        if (!options.google_drive || !options.google_drive.active)
             fs.appendFileSync(`${options.backup.folder_backups}/db.json`, `${fileName}\n`, (err) => {
                 if (err) throw err;
             });
@@ -152,7 +152,7 @@ async function deleteOldFiles(options) {
                             await fs.writeFileSync(`${options.backup.folder_backups}/db.json`, newList)
                         }
 
-                        if (!options.google_drive.active) {
+                        if (!options.google_drive || !options.google_drive.active) {
                             await deleteLocalFile()
                         }
                         else {

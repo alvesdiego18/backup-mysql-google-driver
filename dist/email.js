@@ -3,7 +3,7 @@ const logger = require(`perfect-logger`)
 
 const sendMail = async (options) => {
 
-    if (options.mail.active) {
+    if (options.mail && options.mail.active) {
 
         try {
             

@@ -12,7 +12,7 @@ const backup = require(`./backup`)
 
 function initCron(options) {    
 
-    if (options.cron.active) {
+    if (options.cron && options.cron.active) {
 
         logger.info('cron!')
 
