@@ -14,14 +14,14 @@ Esta biblioteca ajuda a realizar backups do banco de dados MySQL e enviá-los pa
    - ☁️ [Google Drive](#-google-drive)
    - 📧 [E-mail](#-mail)
 4. ✅ [Funcionalidades](#-funcionalidades)
-5. ⚡ [Uso](#-uso)
+5. 🚀 [Como Usar](#-como-usar)
 6. 📝 [Licença](./LICENSE.md)
 
 <br/>
 
 ## 📌 Visão Geral
 
-Esta biblioteca encapsula diversas funcionalidades para facilitar o backup do banco de dados e armazenamento na nuvem de forma prática e segura.
+O Backup MySQL Google Drive é uma biblioteca desenvolvida para facilitar a automação do processo de backup de bancos de dados MySQL. Com ela, você pode gerar backups de forma segura e armazená-los diretamente no Google Drive. Além disso, a lib permite configurar agendamentos automáticos com cron jobs, gerenciar a retenção de arquivos e receber notificações por e-mail, tornando a gestão dos seus backups mais eficiente e confiável.
 
 <br/>
 
@@ -72,7 +72,7 @@ yarn add backup-mysql-google-driver
 
 <br/>
 
-### 📧 Mail
+### 📧 E-Mail
 
 | Propriedade | Tipo   | Descrição                                | Padrão                         | Obrigatório |
 | ----------- | ------ | ---------------------------------------- | ------------------------------ | ----------- |
@@ -102,7 +102,7 @@ yarn add backup-mysql-google-driver
 
 <br/>
 
-## ⚡ Uso
+## 🚀 Como Usar
 
 ```js
 const monitor_backup = require("backup-mysql-google-driver");
