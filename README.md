@@ -1,111 +1,145 @@
-# backup-mysql-google-driver
-This library will help you to perform backups of the mysql database and send them to the google drive
+# Backup MySQL Google Drive
 
-![Backup mysql google driver](assets/demo.gif)
+Esta biblioteca ajuda a realizar backups do banco de dados MySQL e enviá-los para o Google Drive.
 
-## Custom your backup mysql and save in Google drive
-> This is just a bunch of encapsulated libraries to make it easier to back up the database and to store it in the cloud with more comfort and practicality. see below how you can customize.
+![Backup MySQL Google Drive](assets/demo.gif)
 
-## backup
-| Props | Value Type | Description | Default | Required |
-|--|--|--|--|--|
-| host | string | host from mysql database | - | true |
-| user | string | root name mysql database | - | true |
-| password | string | password mysql database | - | true |
-| keep_files | number | number of backups that will be kept | 10 | false |
-| folder_backups | string | name folder to create and save all backup | ./backup | false |
+## 📖 Sumário
 
-## Cron
-> Use this link https://crontab.guru/ from generated a time cron running 
+1. [📌 Visão Geral](#-visão-geral)
+2. [🛠️ Configuração](#️-configuração)
+   - [📂 Backup](#-backup)
+   - [⏳ Cron](#-cron)
+   - [☁️ Google Drive](#-google-drive)
+   - [📧 E-mail](#-mail)
+3. [✅ Funcionalidades](#-funcionalidades)
+4. [📦 Instalação](#-instalação)
+5. [⚡ Uso](#-uso)
+6. 📝 [Licença](./LICENSE.md)
 
-| Props | Value Type | Description | Default | Required |     
-|--|--|--|--|--|
-| active | bool | enable the cron | false | true |
-| time | string | time the cron running | */2 * * * * | true |
-| timezone | string | timezone the cron | America/Sao_Paulo | true |
+<br/>
 
+## 📌 Visão Geral
 
-## Google Drive
-> See how to configure this step below api google drive
-### Configure Google drive
-> Use this link https://developers.google.com/drive/api/v3/quickstart/nodejs to enable google drive api and get your client_id and client_secret
+Esta biblioteca encapsula diversas funcionalidades para facilitar o backup do banco de dados e armazenamento na nuvem de forma prática e segura.
 
-| Props | Value Type | Description | Default | Required |
-|--|--|--|--|--|
-| active | bool | enable the google drive | false | true |
-| client_id | string | the client key id | - | true |
-| client_secret | string | the client key secret | - | true |
-| folder_id | string | the id folder | - | false |
+<br/>
 
+## 🛠️ Configuração
 
-## Mail
-| Props | Value Type | Description | Default | Required |
-|--|--|--|--|--|
-| active | bool | enable sending notification mail | false | true |
-| host | string | host to send mail | - | true |
-| port | number | port to send mail | - | true |
-| secure | bool | secure to send mail | - | true |
-| user | string | user to send mail | - | true |
-| pass | string | password to send mail  | - | true |
-| from | string | email from send mail | - | true |
-| to | string | email to send mail  | - | true |
-| subject | string | subject to send mail | New backup performed successfully | false |
-| text | string | text to send mail | New backup performed successfully | false |
+### 📂 Backup
 
-# What are you doing
-- [x] Backup Database Mysql 
-- [x] Dinamic login with Google driver
-- [x] Send backup file to Google Driver
-- [x] Limited backup files upload 
-- [x] Delete files localy and google driver
-- [x] Limited files in Google driver 
-- [x] Generated log control
-- [x] Send email alert
-- [x] Cron Dinamic
+| Propriedade    | Tipo   | Descrição                          | Padrão   | Obrigatório |
+| -------------- | ------ | ---------------------------------- | -------- | ----------- |
+| host           | string | Host do banco de dados MySQL       | -        | ✅          |
+| user           | string | Nome do usuário root do MySQL      | -        | ✅          |
+| password       | string | Senha do banco de dados            | -        | ✅          |
+| keep_files     | number | Número de backups a serem mantidos | 10       | ❌          |
+| folder_backups | string | Pasta onde os backups serão salvos | ./backup | ❌          |
 
-## Install
-> yarn add backup-mysql-google-driver
+<br/>
 
-## Usage :
+### ⏳ Cron
+
+> Use [crontab.guru](https://crontab.guru/) para gerar uma expressão cron.
+
+| Propriedade | Tipo   | Descrição                 | Padrão            | Obrigatório |
+| ----------- | ------ | ------------------------- | ----------------- | ----------- |
+| active      | bool   | Ativa a execução via cron | false             | ✅          |
+| time        | string | Horário da execução       | `*/2 * * * *`     | ✅          |
+| timezone    | string | Fuso horário              | America/Sao_Paulo | ✅          |
+
+<br/>
+
+### ☁️ Google Drive
+
+> Veja como configurar a API do Google Drive neste [link](https://developers.google.com/drive/api/v3/quickstart/nodejs).
+
+| Propriedade   | Tipo   | Descrição                      | Padrão | Obrigatório |
+| ------------- | ------ | ------------------------------ | ------ | ----------- |
+| active        | bool   | Ativa o backup no Google Drive | false  | ✅          |
+| client_id     | string | ID do cliente OAuth            | -      | ✅          |
+| client_secret | string | Chave secreta do cliente OAuth | -      | ✅          |
+| folder_id     | string | ID da pasta no Google Drive    | -      | ❌          |
+
+<br/>
+
+### 📧 Mail
+
+| Propriedade | Tipo   | Descrição                                | Padrão                         | Obrigatório |
+| ----------- | ------ | ---------------------------------------- | ------------------------------ | ----------- |
+| active      | bool   | Ativa o envio de notificações por e-mail | false                          | ✅          |
+| host        | string | Servidor SMTP                            | -                              | ✅          |
+| port        | number | Porta do SMTP                            | -                              | ✅          |
+| secure      | bool   | Define se a conexão é segura             | -                              | ✅          |
+| user        | string | Usuário SMTP                             | -                              | ✅          |
+| pass        | string | Senha do SMTP                            | -                              | ✅          |
+| from        | string | Remetente do e-mail                      | -                              | ✅          |
+| to          | string | Destinatário do e-mail                   | -                              | ✅          |
+| subject     | string | Assunto do e-mail                        | "Backup realizado com sucesso" | ❌          |
+| text        | string | Corpo do e-mail                          | "Backup realizado com sucesso" | ❌          |
+
+<br/>
+
+## ✅ Funcionalidades
+
+- ✅ Backup do banco de dados MySQL
+- ✅ Login dinâmico com Google Drive
+- ✅ Envio do arquivo de backup para o Google Drive
+- ✅ Limitação de backups enviados
+- ✅ Exclusão de arquivos localmente e no Google Drive
+- ✅ Controle de logs
+- ✅ Envio de alerta por e-mail
+- ✅ Agendamento via cron dinâmico
+
+<br/>
+
+## 📦 Instalação
+
+```sh
+yarn add backup-mysql-google-driver
+```
+
+<br/>
+
+## ⚡ Uso
 
 ```js
-const monitor_backup = require('backup-mysql-google-driver')
+const monitor_backup = require("backup-mysql-google-driver");
 
 monitor_backup({
+  backup: {
+    host: "",
+    user: "",
+    password: "",
+    database: "",
+    keep_files: 10,
+  },
 
-    backup: {
-        host: '',
-        user: '',
-        password: '',
-        database: '',
-        keep_files: 10,
-    },
+  cron: {
+    active: false,
+    time: `*/10 * * * *`,
+    timezone: `America/Sao_Paulo`,
+  },
 
-    cron: {
-        active: false,
-        time: `*/10 * * * *`,
-        timezone: `America/Sao_Paulo`,
-    },
+  google_drive: {
+    active: false,
+    client_id: "",
+    client_secret: "",
+    folder_id: "",
+  },
 
-    google_drive: {
-        active: false,
-        client_id: '',
-        client_secret: '',
-        folder_id: '',
-    },
-
-    mail: {
-        active: false,
-        host: '',
-        port: 465,
-        secure: true,        
-        user: '',
-        pass: '',
-
-        from: 'Name <email@email.com>',
-        to: '',
-        subject: '',
-        text: '',
-    }
-})
+  mail: {
+    active: false,
+    host: "",
+    port: 465,
+    secure: true,
+    user: "",
+    pass: "",
+    from: "Nome <email@email.com>",
+    to: "",
+    subject: "",
+    text: "",
+  },
+});
 ```
