@@ -6,15 +6,15 @@ Esta biblioteca ajuda a realizar backups do banco de dados MySQL e enviá-los pa
 
 ## 📖 Sumário
 
-1. [📌 Visão Geral](#-visão-geral)
-2. [🛠️ Configuração](#️-configuração)
-   - [📂 Backup](#-backup)
-   - [⏳ Cron](#-cron)
-   - [☁️ Google Drive](#-google-drive)
-   - [📧 E-mail](#-mail)
-3. [✅ Funcionalidades](#-funcionalidades)
-4. [📦 Instalação](#-instalação)
-5. [⚡ Uso](#-uso)
+1. 📌 [Visão Geral](#-visão-geral)
+2. 📦 [Instalação](#-instalação)
+3. 🛠️ [Configuração](#️-configuração)
+   - 📂 [Backup](#-backup)
+   - ⏳ [Cron](#-cron)
+   - ☁️ [Google Drive](#-google-drive)
+   - 📧 [E-mail](#-mail)
+4. ✅ [Funcionalidades](#-funcionalidades)
+5. ⚡ [Uso](#-uso)
 6. 📝 [Licença](./LICENSE.md)
 
 <br/>
@@ -22,6 +22,14 @@ Esta biblioteca ajuda a realizar backups do banco de dados MySQL e enviá-los pa
 ## 📌 Visão Geral
 
 Esta biblioteca encapsula diversas funcionalidades para facilitar o backup do banco de dados e armazenamento na nuvem de forma prática e segura.
+
+<br/>
+
+## 📦 Instalação
+
+```sh
+yarn add backup-mysql-google-driver
+```
 
 <br/>
 
@@ -91,14 +99,6 @@ Esta biblioteca encapsula diversas funcionalidades para facilitar o backup do ba
 - ✅ Controle de logs
 - ✅ Envio de alerta por e-mail
 - ✅ Agendamento via cron dinâmico
-
-<br/>
-
-## 📦 Instalação
-
-```sh
-yarn add backup-mysql-google-driver
-```
 
 <br/>
 
